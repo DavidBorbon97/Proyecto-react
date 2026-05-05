@@ -1,16 +1,15 @@
 import {useState, useEffect } from "react"
 import type { Task } from "../types/task"
+import { getTasks, saveTasks } from "../utils/localStorage"
+
 
 export function useTasks(){
 
-    const [tasks, setTasks] = useState<Task[]>(()=>{
-        const saved = localStorage.getItem("tasks")
-        return saved ? JSON.parse(saved): []
-    })
+const [tasks, setTasks] = useState<Task[]>(() =>getTasks())
 
-useEffect(() =>{
-    localStorage.setItem("tasks", JSON.stringify(tasks))
-}, [tasks])
+useEffect(() => {
+    saveTasks(tasks)
+},[tasks])
 
 const addTask = (text: string) =>{
     const newTask: Task ={
@@ -19,35 +18,35 @@ const addTask = (text: string) =>{
         completed: false
     }
 
-    setTasks([...tasks, newTask])
+    setTasks(prev =>[...prev, newTask])
 }
 
 const deleteTask = (id: string) =>{
-    setTasks(tasks.filter(task => task.id !== id))
+    setTasks(prev => prev.filter(task => task.id !== id))
 }
 
 const clearCompleted = () => {
-    setTasks(tasks.filter(task => !task.completed))
+    setTasks(prev => prev.filter(task => !task.completed))
 }
 
 const toggleTask = (id: string) =>{
-    setTasks(
-        tasks.map(task =>
+    setTasks(prev =>
+        prev.map(task =>
             task.id === id
-            ? {...task, completed: !task.completed}
-            :task
+            ?{...task, completed: !task.completed}
+            : task
         )
     )
 }
 
 const editTask = (id: string, newText: string) =>{
-    setTasks(
-        tasks.map(task =>
+    setTasks(prev =>
+        prev.map(task =>
             task.id === id
             ?{...task, text: newText}
             : task
         )
-    )
+    )   
 }
 
 return{
