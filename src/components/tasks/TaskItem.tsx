@@ -1,4 +1,4 @@
-import type {Task} from "../types/task"
+import type {Task} from "../../types/task"
 import { useState } from "react"
 
 type Props ={

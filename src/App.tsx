@@ -1,12 +1,12 @@
 import { useState } from "react"
-import AddTaskForm from "./components/AddTaskForm.tsx"
-import TaskList from "./components/TaskList.tsx"
+import AddTaskForm from "./components/tasks/AddTaskForm.tsx"
+import TaskList from "./components/tasks/TaskList.tsx"
 import {useTasks} from "./hooks/useTasks.ts"
 
 
 function App(){
 
-    const {tasks, addTask, deleteTask, toggleTask, clearCompleted, editTask} = useTasks()
+    const {tasks, addTask, deleteTask, toggleTask, clearCompleted, editTaskHandler} = useTasks()
 
     const [filter, setFilter] = useState<"all" | "active" | "completed">("all")
 
@@ -60,7 +60,7 @@ function App(){
             tasks={filteredTasks}
             onDeleteTask={deleteTask}
             onToggleTask={toggleTask}
-            onEditTask={editTask}
+            onEditTask={editTaskHandler}
             />
         </div>
     )

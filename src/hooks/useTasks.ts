@@ -1,6 +1,7 @@
 import {useState, useEffect } from "react"
 import type { Task } from "../types/task"
 import { getTasks, saveTasks } from "../utils/localStorage"
+import { removeTask, toggleTaskStatus, editTask, createTask } from "../tasks/task.service"
 
 
 export function useTasks(){
@@ -12,17 +13,12 @@ useEffect(() => {
 },[tasks])
 
 const addTask = (text: string) =>{
-    const newTask: Task ={
-        id: crypto.randomUUID(),
-        text,
-        completed: false
-    }
-
-    setTasks(prev =>[...prev, newTask])
+    const newTask = createTask(text)
+    setTasks(prev => [...prev, newTask])
 }
 
-const deleteTask = (id: string) =>{
-    setTasks(prev => prev.filter(task => task.id !== id))
+const deleteTask = (id: string)=>{
+    setTasks(prev => removeTask(prev, id))
 }
 
 const clearCompleted = () => {
@@ -30,32 +26,20 @@ const clearCompleted = () => {
 }
 
 const toggleTask = (id: string) =>{
-    setTasks(prev =>
-        prev.map(task =>
-            task.id === id
-            ?{...task, completed: !task.completed}
-            : task
-        )
-    )
+    setTasks(prev => toggleTaskStatus(prev, id))
 }
 
-const editTask = (id: string, newText: string) =>{
-    setTasks(prev =>
-        prev.map(task =>
-            task.id === id
-            ?{...task, text: newText}
-            : task
-        )
-    )   
+const editTaskHandler = (id:string, newText: string)=>{
+    setTasks(prev => editTask(prev, id, newText))
 }
-
+  
 return{
     tasks,
     addTask,
     deleteTask,
     toggleTask,
     clearCompleted,
-    editTask
+    editTaskHandler
 }
 
 }
