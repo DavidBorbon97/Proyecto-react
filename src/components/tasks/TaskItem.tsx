@@ -1,5 +1,6 @@
 import type {Task} from "../../types/task"
 import { useState } from "react"
+import React from "react"
 
 type Props ={
     task: Task
@@ -8,8 +9,11 @@ type Props ={
     onEditTask: (id: string, text: string) => void
 }
 
-function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }: Props)
+//function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }: Props)
+const TaskItem = React.memo(function TaskItem({task, onDeleteTask, onToggleTask, onEditTask }: Props)
 {
+    console.log("TaskItem render", task.text)
+
     const[editText, setEditText] = useState(task.text)
     const[isEditing, setIsEditing] = useState(false)
     return(
@@ -56,6 +60,6 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }: Props)
             </button>
         </li>
     )
-}
+})
 
 export default TaskItem

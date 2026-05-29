@@ -5,8 +5,10 @@ import {useTasks} from "./hooks/useTasks.ts"
 
 
 function App(){
-
+    
     const {tasks, addTask, deleteTask, toggleTask, clearCompleted, editTaskHandler} = useTasks()
+   
+    console.log(deleteTask)
 
     const [filter, setFilter] = useState<"all" | "active" | "completed">("all")
 

@@ -10,6 +10,8 @@ type Props = {
 
 function TaskList({ tasks, onDeleteTask, onToggleTask,onEditTask }: Props){
 
+    console.log("TaskList render")
+    
     if (tasks.length === 0){
         return <p>No task yet</p>
     }

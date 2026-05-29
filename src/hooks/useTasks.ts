@@ -1,36 +1,53 @@
-import {useState, useEffect } from "react"
-import type { Task } from "../types/task"
-import { getTasks, saveTasks } from "../utils/localStorage"
-import { removeTask, toggleTaskStatus, editTask, createTask } from "../tasks/task.service"
+import {useEffect,useReducer } from "react"
+import {getTasks, saveTasks } from "../utils/localStorage"
+import {taskReducer}from "../tasks/taskReducer"
 
 
 export function useTasks(){
 
-const [tasks, setTasks] = useState<Task[]>(() =>getTasks())
+const initialState = getTasks()
+
+const [tasks, dispatch] = useReducer(taskReducer, initialState)
 
 useEffect(() => {
     saveTasks(tasks)
 },[tasks])
 
 const addTask = (text: string) =>{
-    const newTask = createTask(text)
-    setTasks(prev => [...prev, newTask])
+    dispatch({
+        type: "ADD_TASK",
+        payload: text
+    })
 }
 
 const deleteTask = (id: string)=>{
-    setTasks(prev => removeTask(prev, id))
-}
+    dispatch({
+        type:"DELETE_TASK",
+        payload: id
+    })
+} 
 
 const clearCompleted = () => {
-    setTasks(prev => prev.filter(task => !task.completed))
+    dispatch({
+        type:"CLEAR_COMPLETED"
+    })
 }
 
 const toggleTask = (id: string) =>{
-    setTasks(prev => toggleTaskStatus(prev, id))
+    dispatch({
+        type: "TOGGLE_TASK",
+        payload: id
+    })
 }
 
 const editTaskHandler = (id:string, newText: string)=>{
-    setTasks(prev => editTask(prev, id, newText))
+    dispatch({
+        type: "EDIT_TASK",
+        payload:{
+            id,
+            newText
+        }
+    })
 }
   
 return{

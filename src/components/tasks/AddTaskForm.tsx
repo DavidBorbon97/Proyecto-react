@@ -6,6 +6,8 @@ type Props = {
 
 function AddTaskForm({onAddTask}: Props){
 
+    console.log("AddTaskForm render")
+
     const [text, setText] = useState("")
 
     const handleSubmit = (e: React.FormEvent) => {

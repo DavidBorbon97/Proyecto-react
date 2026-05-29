@@ -27,3 +27,7 @@ export const createTask =(text: string):Task => {
         completed: false
     }
 }
+
+export const clearCompletedTasks = (tasks: Task[]) => {
+    return tasks.filter(task => !task.completed)
+}
