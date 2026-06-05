@@ -1,30 +1,40 @@
 import type {Task} from "../../types/task"
+import { useTasksContext } from "../../context/TasksContext"
 import { useState } from "react"
 import React from "react"
 
 type Props ={
     task: Task
-    onDeleteTask: (id: string) => void
-    onToggleTask: (id: string) => void
-    onEditTask: (id: string, text: string) => void
 }
 
 //function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }: Props)
-const TaskItem = React.memo(function TaskItem({task, onDeleteTask, onToggleTask, onEditTask }: Props)
+const TaskItem = React.memo(function TaskItem({task}:Props)
 {
     console.log("TaskItem render", task.text)
+    const {deleteTask, toggleTask, editTaskHandler} = useTasksContext()
 
     const[editText, setEditText] = useState(task.text)
     const[isEditing, setIsEditing] = useState(false)
     return(
-        <li>
+        <li
+            style={{
+                marginLeft: "auto",
+                display: "flex",
+                alignItems:"center",
+                gap: "10px",
+                padding: "10px",
+                marginBottom: "8px",
+                border: "1px solid #ddd",
+                borderRadius: "8px"
+            }}>
+
             <input
             type="checkbox"
             checked={task.completed}
-            onChange={() => onToggleTask(task.id)}
+            onChange={() => toggleTask(task.id)}
             onKeyDown={(e) =>{
                 if (e.key === "Enter"){
-                    onEditTask(task.id, editText)
+                    editTaskHandler(task.id, editText)
                     setIsEditing(false)
                 }
             }}
@@ -36,13 +46,13 @@ const TaskItem = React.memo(function TaskItem({task, onDeleteTask, onToggleTask,
                     onChange={(e) =>setEditText(e.target.value)} 
                     onKeyDown={(e) => {
                         if (e.key === "Enter"){
-                            onEditTask(task.id, editText)
+                            editTaskHandler(task.id, editText)
                             setIsEditing(false)
                         }
                     }}
                     onBlur={()=>{
                         if(editText.trim()!== task.text){
-                            onEditTask(task.id, editText)
+                            editTaskHandler(task.id, editText)
                         }
                         setIsEditing(false)
                     }}
@@ -50,12 +60,12 @@ const TaskItem = React.memo(function TaskItem({task, onDeleteTask, onToggleTask,
             ) : (
             <span onClick={() => setIsEditing(true)}
                 style={{
-                    textDecoration: task.completed ? "line-though" : "none"
+                    textDecoration: task.completed ? "line-through" : "none"
                 }}>
                 {task.text}
             </span>
     )}
-            <button onClick={() => onDeleteTask(task.id)}>
+            <button onClick={() => deleteTask(task.id)}>
                 🗑
             </button>
         </li>

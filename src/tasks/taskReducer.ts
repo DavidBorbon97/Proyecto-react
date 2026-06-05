@@ -1,4 +1,4 @@
-import { createTask, editTask, removeTask,toggleTaskStatus,clearCompletedTasks} from "./task.service";
+import { createTask, editTask, removeTask,toggleTaskStatus,clearCompletedTasks, markAllCompleted, unmarkAllCompleted} from "./task.service";
 import type{Task,TaskAction}from"../types/task"
 
 export function taskReducer(state: Task[], action: TaskAction){
@@ -20,6 +20,12 @@ export function taskReducer(state: Task[], action: TaskAction){
 
         case "CLEAR_COMPLETED":
             return clearCompletedTasks(state)
+
+        case "MARK_ALL_COMPLETED":
+            return markAllCompleted(state)
+
+        case "UNMARK_ALL_COMPLETED":
+            return unmarkAllCompleted(state)
         
         default:
             return state

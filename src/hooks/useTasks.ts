@@ -49,6 +49,18 @@ const editTaskHandler = (id:string, newText: string)=>{
         }
     })
 }
+
+const markAllCompleted = () => {
+    dispatch({
+        type: "MARK_ALL_COMPLETED"
+    })
+}
+
+const unmarkAllCompleted= () =>{
+    dispatch({
+        type: "UNMARK_ALL_COMPLETED"
+    })
+}
   
 return{
     tasks,
@@ -56,7 +68,9 @@ return{
     deleteTask,
     toggleTask,
     clearCompleted,
-    editTaskHandler
+    editTaskHandler,
+    markAllCompleted,
+    unmarkAllCompleted
 }
 
 }

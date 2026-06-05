@@ -31,3 +31,21 @@ export const createTask =(text: string):Task => {
 export const clearCompletedTasks = (tasks: Task[]) => {
     return tasks.filter(task => !task.completed)
 }
+
+export const markAllCompleted = (tasks: Task[] ): Task[] => {
+    return tasks.map(task =>
+        ({
+            ...task,
+            completed: true
+        })
+    )
+}
+
+export const unmarkAllCompleted =(tasks: Task[]): Task[] =>{
+    return tasks.map(task =>
+    ({
+        ...task,
+        completed: false
+    })
+    )
+}

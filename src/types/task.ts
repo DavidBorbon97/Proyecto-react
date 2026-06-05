@@ -27,3 +27,9 @@ export type TaskAction =
 |{
     type: "CLEAR_COMPLETED"
 }
+|{
+    type: "MARK_ALL_COMPLETED"
+}
+|{
+    type: "UNMARK_ALL_COMPLETED"
+}

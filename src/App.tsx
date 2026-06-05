@@ -1,14 +1,12 @@
 import { useState } from "react"
 import AddTaskForm from "./components/tasks/AddTaskForm.tsx"
 import TaskList from "./components/tasks/TaskList.tsx"
-import {useTasks} from "./hooks/useTasks.ts"
-
+import { useTasksContext } from "./context/TasksContext.tsx"
+import TaskActionBar from "./components/tasks/TaskActionBar.tsx"
 
 function App(){
     
-    const {tasks, addTask, deleteTask, toggleTask, clearCompleted, editTaskHandler} = useTasks()
-   
-    console.log(deleteTask)
+    const {tasks} = useTasksContext()
 
     const [filter, setFilter] = useState<"all" | "active" | "completed">("all")
 
@@ -23,47 +21,80 @@ function App(){
     })
 
     const remainingTasks = tasks.filter(task => !task.completed).length
+    const completedTasks = tasks.filter(task => task.completed).length
+
+    const totalTasks = tasks.length
+
 
     return(
         <div    >
-            <h1>Task Manager</h1>
+            <h1
+                style={{
+                    textAlign: "center"
+                }}
+            >
+                Task Manager
+            </h1>
 
-            <AddTaskForm onAddTask={addTask}/>
+            <AddTaskForm />
 
-            <div style={{margin: "10px 0"}}>
-                <button
-                onClick={()=> setFilter("all")}
-                style={{fontWeight: filter === "all"?"bold":"normal"}}>
-                    All
-                </button>
+                <div style={
+{                    display: "flex",
+                    gap: "10px",
+                    marginBottom:"15px"
+                }}
+                >
+                    <button
+                        onClick={() => setFilter("all")}
+                        style={{
+                            padding: "8px 12px",
+                            borderRadius:"8px",
+                            fontWeight: filter === "all"? "bold" : "normal",
+                            backgroundColor: filter === "all" ? "#e5e7eb":"white"
+                        }}
+                    >
+                        All
+                    </button>
 
-                <button 
-                onClick={()=> setFilter("active")}
-                style={{fontWeight: filter === "active"? "bold" : "normal"}}>
-                    Active
-                </button>
+                    <button
+                        onClick={() => setFilter("active")}
+                        style={{
+                            padding: "8px 12px",
+                            borderRadius:"8px",
+                            fontWeight: filter === "active" ? "bold" : "normal",
+                            backgroundColor: filter === "active" ? "#e5e7eb":"white"
+                        }}
+                    >
+                        Active
+                    </button>
 
-                <button 
-                onClick={()=> setFilter("completed")}
-                style={{fontWeight: filter === "completed" ? "bold": "normal"}}>
-                    Completed
-                </button>
+                    <button
+                        onClick={() => setFilter("completed")}
+                        style={{
+                            padding: "8px 12px",
+                            borderRadius:"8px",
+                            fontWeight: filter === "completed" ? "bold" : "normal",
+                            backgroundColor: filter === "completed" ? "#e5e7eb":"white"
+                        }}
+                    >
+                        Completed
+                    </button>
+                </div>
 
-                {tasks.some(task => task.completed) && (
-                <button onClick={clearCompleted}>
-                    Clear completed
-                </button>
-                )}
-            </div>
+            <TaskActionBar />
 
-            <p>{remainingTasks} tasks remaining</p>
+<p  
+   style={{
+        textAlign: "center",
+        margin: "15px 0",
+        fontWeight: "bold"
+    }}
+>
 
-            <TaskList 
-            tasks={filteredTasks}
-            onDeleteTask={deleteTask}
-            onToggleTask={toggleTask}
-            onEditTask={editTaskHandler}
-            />
+    {remainingTasks} pending • {completedTasks} completed • {totalTasks} total
+</p>
+
+            <TaskList tasks={filteredTasks}/>
         </div>
     )
 }

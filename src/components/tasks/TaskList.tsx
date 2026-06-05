@@ -1,15 +1,11 @@
-import type { Task } from"../../types/task"
+import type { Task } from "../../types/task"
 import TaskItem from "./TaskItem"
 
-type Props = {
+type Props ={
     tasks: Task[]
-    onDeleteTask: (id: string)=> void
-    onToggleTask: (id: string)=> void
-    onEditTask: (id: string, text: string)=> void
 }
 
-function TaskList({ tasks, onDeleteTask, onToggleTask,onEditTask }: Props){
-
+function TaskList({tasks}: Props){
     console.log("TaskList render")
     
     if (tasks.length === 0){
@@ -21,9 +17,6 @@ function TaskList({ tasks, onDeleteTask, onToggleTask,onEditTask }: Props){
             <TaskItem
             key={task.id}
             task={task}
-            onDeleteTask={onDeleteTask}
-            onToggleTask={onToggleTask}
-            onEditTask={onEditTask}
             />
         ))}
         </ul>

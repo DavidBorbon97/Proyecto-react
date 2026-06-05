@@ -1,12 +1,12 @@
 import {useState} from "react"
+import { useTasksContext } from "../../context/TasksContext"
 
-type Props = {
-    onAddTask: (text: string)=> void
-}
 
-function AddTaskForm({onAddTask}: Props){
+function AddTaskForm(){
 
     console.log("AddTaskForm render")
+
+    const {addTask} = useTasksContext()
 
     const [text, setText] = useState("")
 
@@ -15,11 +15,16 @@ function AddTaskForm({onAddTask}: Props){
 
         if (text.trim()=== "")return
 
-        onAddTask(text)
+        addTask(text)
         setText("")
     }
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}
+        style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "15px"
+        }}>
             <input
             type="text"
             placeholder="write a task..."
