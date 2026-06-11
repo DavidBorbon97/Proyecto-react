@@ -30,9 +30,20 @@ function AddTaskForm(){
             placeholder="write a task..."
             value={text}
             onChange={(e)=> setText(e.target.value)}
+            style={{
+                flex: 1,
+                padding: "10px",
+                borderRadius:"8px"
+            }}
             />
 
-            <button type="submit">
+            <button 
+            type="submit"
+            style={{
+                padding: "10px 16px",
+                borderRadius:"8px"
+            }}
+            >
              Add
             </button>
         
