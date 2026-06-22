@@ -4,6 +4,7 @@ import TaskList from "./components/tasks/TaskList.tsx"
 import { useTasksContext } from "./context/TasksContext.tsx"
 import TaskActionBar from "./components/tasks/TaskActionBar.tsx"
 import { useThemeContext } from "./context/ThemeContext.tsx"
+import "./App.css"
 
 function App(){
     
@@ -37,87 +38,64 @@ function App(){
 
     return(
         <div
-        style={{
-            maxWidth: "800px",
-            margin: "0 auto",
-            minHeight: "100vh",
-            padding: "20px",
-            backgroundColor: darkMode ? "#111827":"white",
-            color: darkMode ? "white" : "black"
-        }}
-            >
-            <h1
-                style={{
-                    textAlign: "center",
-                }}
-            >
+            className="app-container"
+            style={{
+                backgroundColor: darkMode ? "#111827" : "white",
+                color: darkMode ? "white" : "black"
+            }}
+        >
+            <h1 className="app-title">
                 Task Manager
             </h1>
 
             <AddTaskForm />
 
             <input
+            className="search-input"
             type="text"
             placeholder="Search task..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{
-                width: "100%",
-                padding: "8px",
-                marginBottom: "15px",
-                borderRadius: "8px"
-            }}
             />
 
-                <div style={{                    display: "flex",
-                    gap: "10px",
-                    marginBottom:"15px"
-                }}
-                >
+                <div className="filter-container">
                     <button
+                        className={
+                            filter === "all"
+                            ?"filter-button active"
+                            :"filter-button"
+                        }
                         onClick={() => setFilter("all")}
-                        style={{
-                            padding: "8px 12px",
-                            borderRadius:"8px",
-                            fontWeight: filter === "all"? "bold" : "normal",
-                            backgroundColor: filter === "all" ? "#e5e7eb":"white"
-                        }}
                     >
                         All
                     </button>
 
                     <button
+                        className={
+                            filter === "active"
+                            ?"filter-button active"
+                            :"filter-button"
+                        }  
                         onClick={() => setFilter("active")}
-                        style={{
-                            padding: "8px 12px",
-                            borderRadius:"8px",
-                            fontWeight: filter === "active" ? "bold" : "normal",
-                            backgroundColor: filter === "active" ? "#e5e7eb":"white"
-                        }}
                     >
                         Active
                     </button>
 
                     <button
+                        className={
+                            filter === "completed"
+                            ?"filter-button active"
+                            :"filter-button"
+                        }   
                         onClick={() => setFilter("completed")}
-                        style={{
-                            padding: "8px 12px",
-                            borderRadius:"8px",
-                            fontWeight: filter === "completed" ? "bold" : "normal",
-                            backgroundColor: filter === "completed" ? "#e5e7eb":"white"
-                        }}
                     >
                         Completed
                     </button>
                 </div>
 
                 <button
+                className="theme-button"
                 onClick={()=> setDarkMode(!darkMode)}
-                style={{
-                    padding: "8px 12px",
-                    borderRadius: "8px",
-                    marginBottom: "15px"
-                }}
                 >
                   {darkMode? "Light Mode":"Dark Mode"}
                 </button>
@@ -127,38 +105,21 @@ function App(){
             <p>
                 Progress: {progress}%
             </p>
-            <div
-                style={{
-                    width: "100%",
-                    height: "20px",
-                    backgroundColor: "#d1d5db",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    marginBottom: "15px"
-                }}
-                >
+            <div className="progress-container">
                     <div
+                    className="progress-fill"
                     style={{
-                        width: `${progress}%`,
-                        height: "100",
-                        backgroundColor: "#22c55e"
+                        width: `$(progress)%`
                     }}
                     />
                 </div>
 
-<p  
-   style={{
-        textAlign: "center",
-        margin: "15px 0",
-        fontWeight: "bold"
-    }}
->
+<p className="tasks-summary">
 
     {remainingTasks} pending • {completedTasks} completed • {totalTasks} total
 </p>
-
-            <TaskList tasks={filteredTasks}/>
-        </div>
+    <TaskList tasks={filteredTasks}/>
+    </div>
     )
 }
 export default App

@@ -3,6 +3,7 @@ import { useTasksContext } from "../../context/TasksContext"
 import { useState } from "react"
 import React from "react"
 import { useThemeContext } from "../../context/ThemeContext"
+import "./TaskItem.css"
 
 type Props ={
     task: Task
@@ -20,21 +21,12 @@ const TaskItem = React.memo(function TaskItem({task}:Props)
     const[isEditing, setIsEditing] = useState(false)
     return(
         <li
-            style={{
-                display: "flex",
-                alignItems:"center",
-                gap: "10px",
-                padding: "10px",
-                marginBottom: "8px",
-                border: darkMode
-                    ? "1px solid #374151"
-                    : "1px solid #ddd",
-                borderRadius: "8px",
-                backgroundColor: darkMode
-                    ?"#1f2937"
-                    :"#ffffff"
-            }}
-            >
+            className={
+                darkMode
+                    ? "task-item task-item-dark"
+                    : "task-item task-item-light"
+            }
+        >
 
             <input
             type="checkbox"
