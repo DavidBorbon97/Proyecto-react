@@ -38,12 +38,15 @@ function App(){
 
     return(
         <div
-            className="app-container"
             style={{
                 backgroundColor: darkMode ? "#111827" : "white",
-                color: darkMode ? "white" : "black"
+                color: darkMode ? "white" : "black",
+                minHeight: "100vh"
             }}
         >
+
+            <div className="app-container">
+
             <h1 className="app-title">
                 Task Manager
             </h1>
@@ -120,6 +123,7 @@ function App(){
 </p>
     <TaskList tasks={filteredTasks}/>
     </div>
+</div>
     )
 }
 export default App

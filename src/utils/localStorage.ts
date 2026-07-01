@@ -14,3 +14,21 @@ export const getTasks = (): Task[] => {
         return[]
     }
 }
+
+export const saveTheme = (darkMode: boolean) => {
+    localStorage.setItem(
+        "darkMode",
+        JSON.stringify(darkMode)
+    )
+}
+
+export const getTheme = (): boolean => {
+    const data = localStorage.getItem("darkMode")
+
+    try{
+        return data ? JSON.parse(data): false
+    }catch(error){
+        console.error("Error parsing theme", error)
+        return false
+    }
+}

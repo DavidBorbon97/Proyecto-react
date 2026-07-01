@@ -1,4 +1,5 @@
-import { createContext, useContext,useState, type ReactNode} from "react"
+import { createContext, useContext,useEffect,useState, type ReactNode} from "react"
+import {getTheme, saveTheme} from"../utils/localStorage"
 
 
 type ThemeContextType = {
@@ -10,7 +11,11 @@ const ThemeContext = createContext<ThemeContextType | null>(null)
 //type ThemeContextType = ReturnType<typeof useTheme>
 
 export function ThemeProvider({children}: {children: ReactNode}){
-    const [darkMode, setDarkMode] = useState(false)
+    const [darkMode, setDarkMode] = useState<boolean>(() => getTheme())
+
+    useEffect(()=> {
+        saveTheme(darkMode)
+    },[darkMode])
 
     return(
         <ThemeContext.Provider
